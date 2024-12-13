@@ -12,17 +12,17 @@ public class CalculatorService implements CalculatorInterface {
     public CalculatorService(){}
 
     @Override
-    public Float sum(float x, float y) {
+    public float sum(float x, float y) {
         return  x + y;
     }
 
     @Override
-    public Float subtraction(float x, float y) {
+    public float subtraction(float x, float y) {
         return x - y;
     }
 
     @Override
-    public Float multiplication(float x, float y) {
+    public float multiplication(float x, float y) {
         return x * y;
     }
 
