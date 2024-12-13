@@ -17,21 +17,21 @@ import java.util.concurrent.ExecutionException;
 public class KafkaCalculatorRequestService implements CalculatorRequestReplyService {
 
 
-    private final ReplyingKafkaTemplate<String, Object, Object> replyingKafkaTemplate;
+    private final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate;
 
 
     public KafkaCalculatorRequestService(
-            final ReplyingKafkaTemplate<String, Object, Object> replyingKafkaTemplate) {
+            final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate) {
 
         this.replyingKafkaTemplate = replyingKafkaTemplate;
     }
 
     @Override
-    public ProducerRecord<String, Object> calculatorRequestReply(final CalculatorRequest CalculatorRequest) throws InterruptedException, ExecutionException, JsonProcessingException {
-        ProducerRecord<String, Object> record = new ProducerRecord<>("calculator.requests", CalculatorRequest);
-        RequestReplyFuture<String, Object, Object> replyFuture  = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(1));
-        SendResult<String, Object> sendResult = replyFuture.getSendFuture().get();
+    public CalculatorRequest calculatorRequestReply(final CalculatorRequest CalculatorRequest) throws InterruptedException, ExecutionException, JsonProcessingException {
+        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>("calculator.requests", CalculatorRequest);
+        RequestReplyFuture<String, CalculatorRequest, CalculatorRequest> replyFuture  = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(10));
+        SendResult<String, CalculatorRequest> sendResult = replyFuture.getSendFuture().get();
 
-        return sendResult.getProducerRecord();
+        return sendResult.getProducerRecord().value();
     }
 }

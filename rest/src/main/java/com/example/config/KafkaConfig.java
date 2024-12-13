@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.domain.CalculatorRequest;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,29 +21,29 @@ public class KafkaConfig {
     @Bean
     public NewTopic calculatorRequestTopic(){
         return TopicBuilder.name("calculator.requests")
-                .partitions(10)
+                .partitions(1)
                 .replicas(1)
                 .build();
     }
 
     @Bean
-    public ReplyingKafkaTemplate<String,Object, Object> replyingKafkaTemplate(
-            ProducerFactory<String,Object> pf,
-            ConcurrentMessageListenerContainer<String, Object> repliesContainer) {
+    public ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate(
+            ProducerFactory<String,CalculatorRequest> pf,
+            ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer) {
         return new ReplyingKafkaTemplate<>(pf,repliesContainer);
     }
 
     @Bean
-    KafkaTemplate<String, Object> template(ProducerFactory<String, Object> pf) {
+    KafkaTemplate<String, CalculatorRequest> template(ProducerFactory<String, CalculatorRequest> pf) {
         return new KafkaTemplate<>(pf);
     }
 
     @Bean
-    public ConcurrentMessageListenerContainer<String, Object> repliesContainer(
-            ConcurrentKafkaListenerContainerFactory<String, Object> containerFactory,
-            KafkaTemplate<String, Object> template) {
+    public ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer(
+            ConcurrentKafkaListenerContainerFactory<String, CalculatorRequest> containerFactory,
+            KafkaTemplate<String, CalculatorRequest> template) {
         containerFactory.setReplyTemplate(template);
-        ConcurrentMessageListenerContainer<String, Object> repliesContainer = containerFactory.createContainer("calculator.requests");
+        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer("calculator.replies");
         repliesContainer.getContainerProperties().setGroupId("replies");
         return repliesContainer;
     }

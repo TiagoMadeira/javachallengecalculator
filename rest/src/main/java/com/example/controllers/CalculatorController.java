@@ -34,7 +34,7 @@ public class CalculatorController {
     @GetMapping("subtraction")
     public Object subtraction(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
         CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction");
-        Object  result = calculatorRequestService.calculatorRequestReply(calculatorRequest).value();
+        Object  result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
         return result;
     }
@@ -54,4 +54,5 @@ public class CalculatorController {
 
         return result;
     }
+
 }
