@@ -1,11 +1,12 @@
-package com.example;
+package com.example.service.impl;
 
 
+import com.example.service.CalculatorInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CalculatorService implements CalculatorInterface{
+public class CalculatorService implements CalculatorInterface {
 
     @Autowired
     public CalculatorService(){}

@@ -2,39 +2,56 @@ package com.example.controllers;
 
 
 
-import com.example.CalculatorService;
+import com.example.domain.CalculatorRequest;
+import com.example.services.CalculatorRequestReplyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping("/")
 public class CalculatorController {
 
-    private final CalculatorService calculatorService;
+    private final CalculatorRequestReplyService calculatorRequestService;
 
-    public CalculatorController(CalculatorService calculatorService){
-        this.calculatorService = calculatorService;
+    public CalculatorController( CalculatorRequestReplyService calculatorRequestService){
+        this.calculatorRequestService = calculatorRequestService;
     }
 
     @GetMapping("sum")
-    public float sum(@RequestParam Float x, @RequestParam Float y ){
-        return calculatorService.sum(x, y);
+    public Object sum(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
+
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"sum");
+        Object result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
+
+        return result;
     }
 
     @GetMapping("subtraction")
-    public float subtraction(@RequestParam Float x, @RequestParam Float y ){
-        return calculatorService.subtraction(x, y);
+    public Object subtraction(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction");
+        Object  result = calculatorRequestService.calculatorRequestReply(calculatorRequest).value();
+
+        return result;
     }
 
     @GetMapping("multiplication")
-    public float multiplication(@RequestParam Float x, @RequestParam Float y ){
-        return calculatorService.multiplication(x, y);
+    public Object multiplication(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"multiplication");
+        Object result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
+
+        return result;
     }
 
     @GetMapping("division")
-    public float division(@RequestParam Float x, @RequestParam Float y){
-        return calculatorService.division(x, y);
+    public Object division(@RequestParam Float x, @RequestParam Float y) throws ExecutionException, InterruptedException, JsonProcessingException {
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"division");
+        Object result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
+
+        return result;
     }
 }
