@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -25,33 +26,48 @@ public class CalculatorController {
     }
 
     @GetMapping("sum")
-    public ResponseEntity<Object> sum(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
+    public ResponseEntity<Object> sum(
+            @RequestParam() BigDecimal x,
+            @RequestParam BigDecimal y,
+            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException, JsonProcessingException {
 
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"sum");
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"sum",precision);
         CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
         return getResponseEntity(result.getResult());
     }
 
     @GetMapping("subtraction")
-    public ResponseEntity<Object> subtraction(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction");
+    public ResponseEntity<Object> subtraction(
+            @RequestParam BigDecimal x,
+            @RequestParam BigDecimal y,
+            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException, JsonProcessingException {
+
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction", precision);
         CalculatorRequest  result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
         return getResponseEntity(result.getResult());
     }
 
     @GetMapping("multiplication")
-    public ResponseEntity<Object> multiplication(@RequestParam Float x, @RequestParam Float y ) throws ExecutionException, InterruptedException, JsonProcessingException {
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"multiplication");
+    public ResponseEntity<Object> multiplication(
+            @RequestParam BigDecimal x,
+            @RequestParam BigDecimal y,
+            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException, JsonProcessingException {
+
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"multiplication",precision);
         CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
         return getResponseEntity(result.getResult());
     }
 
     @GetMapping("division")
-    public ResponseEntity<Object> division(@RequestParam Float x, @RequestParam Float y) throws ExecutionException, InterruptedException, JsonProcessingException {
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"division");
+    public ResponseEntity<Object> division(
+            @RequestParam BigDecimal x,
+            @RequestParam BigDecimal y,
+            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException, JsonProcessingException {
+
+        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"division",precision);
         CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
         return getResponseEntity(result.getResult());

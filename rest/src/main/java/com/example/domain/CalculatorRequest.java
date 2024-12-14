@@ -7,25 +7,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 
 @Getter
 public class CalculatorRequest {
 
-    private final Float x;
-    private final Float y;
+    private final BigDecimal x;
+    private final BigDecimal y;
     private final String operation;
+    private final int precision;
     @Setter
     @JsonInclude
     private String result;
 
     @JsonCreator
-    public CalculatorRequest(@JsonProperty("x")Float x,
-                             @JsonProperty("y")Float y,
-                             @JsonProperty("operation")String operation
-                            ) {
+    public CalculatorRequest(@JsonProperty("x")BigDecimal x,
+                             @JsonProperty("y")BigDecimal y,
+                             @JsonProperty("operation")String operation,
+                             @JsonProperty("precision")int precision
+    ) {
         this.x = x;
         this.y = y;
         this.operation = operation;
+        this.precision = precision;
         this.result = "result not set";
     }
 

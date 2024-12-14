@@ -1,5 +1,7 @@
-package com.example;
+package com.example.integration;
 
+import com.example.RestApplication;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -14,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class CalculatorControllerTests {
 
     private final MockMvc mockMvc;
+
     @Autowired
     public CalculatorControllerTests(MockMvc mockMvc){
         this.mockMvc = mockMvc;
@@ -29,51 +34,47 @@ public class CalculatorControllerTests {
 
     @Test
     public void sumEndpointTest() throws Exception {
-        float x = 2.0f;
-        float y = 2.0f;
+        BigDecimal two = new BigDecimal(2);
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/sum?x=" + x + "&y=" + y))
+                .perform(MockMvcRequestBuilders.get("/sum?x=" + two + "&y=" + two))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{result:\"4.0\"}"));
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
 
 
     }
     @Test
     public void subtractionEndpointTest() throws Exception {
-        float x = 2.0f;
-        float y = 2.0f;
+        BigDecimal two = new BigDecimal(2);
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/subtraction?x=" + x + "&y=" + y))
+                .perform(MockMvcRequestBuilders.get("/subtraction?x=" + two + "&y=" + two))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{result:\"0.0\"}"));
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"0\"}"));
 
     }
     @Test
     public void multiplicationEndpointTest() throws Exception {
-        float x = 2.0f;
-        float y = 2.0f;
+        BigDecimal two = new BigDecimal(2);
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/multiplication?x=" + x + "&y=" + y))
+                .perform(MockMvcRequestBuilders.get("/multiplication?x=" + two + "&y=" + two))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{result:\"4.0\"}"));
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
 
     }
     @Test
     public void divisionEndpointTest() throws Exception {
-        float x = 2.0f;
-        float y = 2.0f;
+        BigDecimal two = new BigDecimal(2);
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/division?x=" + x + "&y=" + y))
+                .perform(MockMvcRequestBuilders.get("/division?x=" + two + "&y=" + two))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{result:\"1.0\"}"));
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"1\"}"));
 
     }
 

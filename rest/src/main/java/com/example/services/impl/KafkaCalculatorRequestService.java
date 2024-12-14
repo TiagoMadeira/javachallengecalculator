@@ -3,6 +3,7 @@ package com.example.services.impl;
 import com.example.domain.CalculatorRequest;
 import com.example.services.CalculatorRequestReplyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.requestreply.RequestReplyFuture;
@@ -27,11 +28,15 @@ public class KafkaCalculatorRequestService implements CalculatorRequestReplyServ
     }
 
     @Override
-    public CalculatorRequest calculatorRequestReply(final CalculatorRequest CalculatorRequest) throws InterruptedException, ExecutionException, JsonProcessingException {
-        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>("calculator.requests", CalculatorRequest);
+    public CalculatorRequest calculatorRequestReply(final CalculatorRequest calculatorRequest) throws InterruptedException, ExecutionException, JsonProcessingException {
+        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>("calculator.requests", calculatorRequest);
         RequestReplyFuture<String, CalculatorRequest, CalculatorRequest> replyFuture  = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(10));
+
+        //Get Producer Record for Logging
         SendResult<String, CalculatorRequest> sendResult = replyFuture.getSendFuture().get();
 
-        return sendResult.getProducerRecord().value();
+        //Get consumer record listener record
+        ConsumerRecord<String, CalculatorRequest> consumerRecord = replyFuture.get();
+        return consumerRecord.value();
     }
 }

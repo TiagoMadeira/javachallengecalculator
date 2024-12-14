@@ -2,11 +2,13 @@ package com.example.service;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public interface CalculatorInterface {
 
-    float sum(float x, float y);
-    float subtraction(float x, float y);
-    float multiplication(float x, float y);
-    float division(float x, float y);
+    BigDecimal sum(BigDecimal x, BigDecimal y,int precision);
+    BigDecimal subtraction(BigDecimal x, BigDecimal y, int precision);
+    BigDecimal multiplication(BigDecimal x, BigDecimal y, int precision);
+    BigDecimal division(BigDecimal x, BigDecimal y, int precision);
 }

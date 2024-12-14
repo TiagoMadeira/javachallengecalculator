@@ -21,7 +21,7 @@ public class KafkaConfig {
     @Bean
     public NewTopic calculatorRequestTopic(){
         return TopicBuilder.name("calculator.requests")
-                .partitions(1)
+                .partitions(10)
                 .replicas(1)
                 .build();
     }
