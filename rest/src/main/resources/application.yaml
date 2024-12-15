@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    bootstrap-servers: messenger:9092
+    consumer:
+      group-id: "replies"
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "[spring.json.value.default.type]": com.example.domain.CalculatorRequest
+        "[spring.json.trusted.packages]": com.example.domain.CalculatorRequest
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  application:
+    name: rest
+calculator:
+  defaultPrecision: 10

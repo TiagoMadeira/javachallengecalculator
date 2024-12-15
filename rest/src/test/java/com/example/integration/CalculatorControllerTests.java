@@ -1,7 +1,6 @@
 package com.example.integration;
 
 import com.example.RestApplication;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
