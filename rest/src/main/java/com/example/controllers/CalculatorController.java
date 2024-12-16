@@ -2,6 +2,7 @@ package com.example.controllers;
 
 import com.example.RestApplication;
 import com.example.domain.CalculatorRequest;
+import com.example.handlers.RequestReplyServiceHandler;
 import com.example.services.CalculatorRequestReplyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,12 +20,10 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/")
 public class CalculatorController {
 
-    private static final Logger logger = LogManager.getLogger("lognow");
+    private final RequestReplyServiceHandler requestReplyServiceHandler;
 
-    private final CalculatorRequestReplyService calculatorRequestService;
-
-    public CalculatorController( CalculatorRequestReplyService calculatorRequestService){
-        this.calculatorRequestService = calculatorRequestService;
+    public CalculatorController(CalculatorRequestReplyService calculatorRequestService, RequestReplyServiceHandler requestReplyServiceHandler){
+        this.requestReplyServiceHandler = requestReplyServiceHandler;
     }
 
     @GetMapping("sum")
@@ -33,11 +32,9 @@ public class CalculatorController {
             @RequestParam BigDecimal y,
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
-        logger.info("logged!##############################################");
         CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"sum",precision);
-        CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
-        return getResponseEntity(result.getResult());
+        return requestReplyServiceHandler.handleRequest(calculatorRequest);
     }
 
     @GetMapping("subtraction")
@@ -47,9 +44,8 @@ public class CalculatorController {
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction", precision);
-        CalculatorRequest  result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
-        return getResponseEntity(result.getResult());
+        return requestReplyServiceHandler.handleRequest(calculatorRequest);
     }
 
     @GetMapping("multiplication")
@@ -59,9 +55,8 @@ public class CalculatorController {
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"multiplication",precision);
-        CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
-        return getResponseEntity(result.getResult());
+        return requestReplyServiceHandler.handleRequest(calculatorRequest);
     }
 
     @GetMapping("division")
@@ -71,18 +66,8 @@ public class CalculatorController {
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"division",precision);
-        CalculatorRequest result = calculatorRequestService.calculatorRequestReply(calculatorRequest);
 
-        return getResponseEntity(result.getResult());
+        return requestReplyServiceHandler.handleRequest(calculatorRequest);
     }
 
-    private ResponseEntity<Object> getResponseEntity(String result) {
-        return ResponseEntity.ok().body(Map.of(
-                "result", result));
-    }
-
-    private void logRequest(){
-
-
-    }
 }

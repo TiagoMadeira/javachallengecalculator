@@ -1,0 +1,65 @@
+2024-12-16 18:38:07,974 INFO o.s.t.c.s.AnnotationConfigContextLoaderUtils [Test worker] Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-12-16 18:38:08,078 INFO o.s.b.t.c.SpringBootTestContextBootstrapper [Test worker] Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests
+2024-12-16 18:38:08,550 INFO c.e.c.CalculatorApplicationTests [Test worker] Starting CalculatorApplicationTests using Java 23.0.1 with PID 2140 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator)
+2024-12-16 18:38:08,566 INFO c.e.c.CalculatorApplicationTests [Test worker] No active profile set, falling back to 1 default profile: "default"
+2024-12-16 18:38:09,996 INFO c.e.c.CalculatorApplicationTests [Test worker] Started CalculatorApplicationTests in 1.763 seconds (process running for 3.36)
+2024-12-16 18:38:54.293 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 18:38:54.412 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 18:38:54.890 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 28528 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 18:38:54.894 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 18:38:56.267 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.693 seconds (process running for 3.349) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:27:56.589 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:27:56.715 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:27:57.230 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 29732 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:27:57.233 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:27:58.688 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.795 seconds (process running for 3.697) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:50:50.517 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:50:50.648 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:50:51.143 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 31732 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:50:51.148 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 19:50:52.680 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.878 seconds (process running for 3.617) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:41:21.522 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:41:21.657 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:41:22.181 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 15012 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:41:22.186 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:41:23.684 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.853 seconds (process running for 3.612) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:59:25.208 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:59:25.333 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:59:25.792 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 12444 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:59:25.797 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 20:59:27.287 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.804 seconds (process running for 3.461) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 21:25:48.242 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [com.example.calculator.CalculatorApplicationTests]: CalculatorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 21:25:48.361 [Test worker] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Message:  Found @SpringBootConfiguration com.example.calculator.CalculatorApplication for test class com.example.calculator.CalculatorApplicationTests Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 21:25:48.867 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Starting CalculatorApplicationTests using Java 23.0.1 with PID 14752 (started by Tiago in C:\Users\Tiago\Desktop\calculator\calculator) Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 21:25:48.871 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  No active profile set, falling back to 1 default profile: "default" Request.id= Request.URI= Request.QueryParams= 
+
+2024-12-16 21:25:50.328 [Test worker] INFO  com.example.calculator.CalculatorApplicationTests - Message:  Started CalculatorApplicationTests in 1.805 seconds (process running for 3.542) Request.id= Request.URI= Request.QueryParams= 
+

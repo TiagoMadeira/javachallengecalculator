@@ -23,19 +23,21 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaAdmin admin() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "messenger:9092");
-        return new KafkaAdmin(configs);
-    }
-
-    @Bean
-    public NewTopic calculatorRequestTopic(){
-        return TopicBuilder.name("calculator.requests")
-                .partitions(10)
+    public NewTopic calculatorRequestTopic(final KafkaConfigProps kafkaConfigProps){
+        return TopicBuilder.name(kafkaConfigProps.getTopic())
+                .partitions(5)
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic calculatorReplyTopic(final KafkaConfigProps kafkaConfigProps){
+        return TopicBuilder.name(kafkaConfigProps.getReplyTopic())
+                .partitions(5)
+                .replicas(1)
+                .build();
+    }
+
 
     @Bean
     public ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate(
@@ -51,10 +53,11 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer(
+            final KafkaConfigProps kafkaConfigProps,
             ConcurrentKafkaListenerContainerFactory<String, CalculatorRequest> containerFactory,
             KafkaTemplate<String, CalculatorRequest> template) {
         containerFactory.setReplyTemplate(template);
-        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer("calculator.replies");
+        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
         repliesContainer.getContainerProperties().setGroupId("replies");
         return repliesContainer;
     }

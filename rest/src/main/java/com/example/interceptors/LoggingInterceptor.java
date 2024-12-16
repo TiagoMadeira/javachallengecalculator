@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,14 +18,24 @@ public class LoggingInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String uniqueID = UUID.randomUUID().toString();
-        String uri = request.getRequestURI();
-        String queryString = request.getQueryString();
-        String template = "RequestURI: %s | QueryParams: %s | RequestID: %s";
-        String log = String.format(template, uri, queryString,uniqueID);
-        logger.info(log);
+        MDC.put("Request.id",  UUID.randomUUID().toString());
+        MDC.put("Request.URI", request.getRequestURI());
+        MDC.put("Request.QueryParams",request.getQueryString());
+        logger.info("[Rest][Request][Input] received!");
 
         return true;
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+        //Add info to MDC
+        MDC.put("Response.status", String.valueOf(response.getStatus()));
+
+        logger.info("[Rest][Request][Output] resolved!");
+
+        //Clear the MDC
+        MDC.clear();
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+    }
 }

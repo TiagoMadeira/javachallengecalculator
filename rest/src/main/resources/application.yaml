@@ -11,5 +11,10 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   application:
     name: rest
+
+project:
+  kafka:
+    topic: "calculator.requests"
+    replyTopic: "calculator.replies"
 calculator:
   defaultPrecision: 10
