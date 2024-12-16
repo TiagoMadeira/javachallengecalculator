@@ -8,5 +8,5 @@ import java.util.concurrent.ExecutionException;
 
 public interface CalculatorRequestReplyService {
 
-    CalculatorRequest calculatorRequestReply(CalculatorRequest calculatorRequest) throws ExecutionException, InterruptedException, JsonProcessingException;
+    CalculatorRequest calculatorRequestReply(CalculatorRequest calculatorRequest) throws ExecutionException, InterruptedException;
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message: %msg%n"/>
+        </Console>
+        <File name="LogFile" filename="app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console"/>
+        </Root>
+        <Logger name="lognow" level="info" activity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="LogFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -20,7 +20,6 @@ import java.util.Map;
 public class KafkaConfig {
 
     public KafkaConfig() {
-
     }
 
     @Bean
