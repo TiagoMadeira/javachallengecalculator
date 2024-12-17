@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 
@@ -21,6 +19,8 @@ public class KafkaConfig {
 
     public KafkaConfig() {
     }
+
+
 
     @Bean
     public NewTopic calculatorRequestTopic(final KafkaConfigProps kafkaConfigProps){
@@ -46,18 +46,20 @@ public class KafkaConfig {
         return new ReplyingKafkaTemplate<>(pf,repliesContainer);
     }
 
+
     @Bean
     KafkaTemplate<String, CalculatorRequest> template(ProducerFactory<String, CalculatorRequest> pf) {
         return new KafkaTemplate<>(pf);
     }
 
+
+
     @Bean
     public ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer(
-            final KafkaConfigProps kafkaConfigProps,
             ConcurrentKafkaListenerContainerFactory<String, CalculatorRequest> containerFactory,
             KafkaTemplate<String, CalculatorRequest> template) {
         containerFactory.setReplyTemplate(template);
-        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
+        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer("calculator.replies");
         repliesContainer.getContainerProperties().setGroupId("replies");
         return repliesContainer;
     }

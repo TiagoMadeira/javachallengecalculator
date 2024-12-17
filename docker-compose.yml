@@ -25,19 +25,11 @@ services:
       - KAFKA_CFG_NODE_ID=1
       - KAFKA_KRAFT_CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
 
-  rest:
-    build: ./rest
-    container_name: rest
+  calculator:
+    build: ./
+    container_name: calculator
     ports:
       - "8080:8080"
-    networks:
-      - backend
-    depends_on:
-      - messenger
-
-  calculator-service:
-    build: ./calculator-service
-    container_name: calculator-service
     networks:
       - backend
     depends_on:

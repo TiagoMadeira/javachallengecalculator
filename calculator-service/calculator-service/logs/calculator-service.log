@@ -1,6 +1,0 @@
-2024-12-16 19:50:55.630 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [CalculatorServiceTest]: CalculatorServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
-
-2024-12-16 20:41:26.483 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [CalculatorServiceTest]: CalculatorServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
-
-2024-12-16 20:59:30.081 [Test worker] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Message:  Could not detect default configuration classes for test class [CalculatorServiceTest]: CalculatorServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration. Request.id= Request.URI= Request.QueryParams= 
-

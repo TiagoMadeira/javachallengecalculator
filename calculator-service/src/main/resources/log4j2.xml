@@ -4,7 +4,7 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Kafka.Request.Operation=%X{Kafka.Request.Operation} Kafka.Request.yOperand=%X{Kafka.Request.yOperand} Kafka.Request.xOperand=%X{Kafka.Request.xOperand} Kafka.Request.Precision=%X{Kafka.Request.Precision} Kafka.reply.result=%X{Kafka.reply.result}%n%n"/>
         </Console>
-        <File name="LogFile" filename="calculator-service/logs/calculator-service.log">
+        <File name="LogFile" filename="logs/calculator-service.log">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} %n%n</Pattern>
             </PatternLayout>
