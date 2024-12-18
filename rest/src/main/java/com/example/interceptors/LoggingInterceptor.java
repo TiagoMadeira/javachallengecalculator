@@ -27,15 +27,16 @@ public class LoggingInterceptor implements HandlerInterceptor{
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         //Add info to MDC
         MDC.put("Response.status", String.valueOf(response.getStatus()));
+
+        //Append MDC request.id to the response header
+        response.addHeader("Request.id", MDC.get("Request.id"));
 
         logger.info("[Rest][Request][Output] resolved!");
 
         //Clear the MDC
         MDC.clear();
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }

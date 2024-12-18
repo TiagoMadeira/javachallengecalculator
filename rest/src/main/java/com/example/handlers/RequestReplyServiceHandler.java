@@ -20,7 +20,6 @@ public class RequestReplyServiceHandler {
         try {
             CalculatorMessage result = calculatorRequestService.calculatorRequestReply(request);
             return getSuccessfulEntity(result.getResult());
-
         } catch (ExecutionException e) {
             return getExecutionFailEntity(e.getCause().getMessage());
         } catch (InterruptedException e) {
@@ -30,16 +29,16 @@ public class RequestReplyServiceHandler {
     }
 
     private ResponseEntity<Object> getSuccessfulEntity(String result) {
-        return ResponseEntity.ok().header("Request.id", MDC.get("Request.id")).body(Map.of(
+        return ResponseEntity.ok().body(Map.of(
                 "result", result));
     }
     private ResponseEntity<Object> getExecutionFailEntity(String cause) {
-        return ResponseEntity.badRequest().header("Request.id", MDC.get("Request.id")).body(Map.of(
+        return ResponseEntity.badRequest().body(Map.of(
                 "BadRequest", cause));
     }
     private ResponseEntity<Object> getInterruptedExceptionEntity() {
-        return ResponseEntity.internalServerError().header("Request.id", MDC.get("Request.id")).body(Map.of(
+        return ResponseEntity.internalServerError().body(Map.of(
                 "Error", "Something went wrong"));
     }
-
+//.header("Request.id", MDC.get("Request.id"))
 }
