@@ -17,6 +17,7 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
+
     public KafkaConfig() {
     }
 
@@ -56,10 +57,11 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer(
+            final KafkaConfigProps kafkaConfigProps,
             ConcurrentKafkaListenerContainerFactory<String, CalculatorRequest> containerFactory,
             KafkaTemplate<String, CalculatorRequest> template) {
         containerFactory.setReplyTemplate(template);
-        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer("calculator.replies");
+        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
         repliesContainer.getContainerProperties().setGroupId("replies");
         return repliesContainer;
     }

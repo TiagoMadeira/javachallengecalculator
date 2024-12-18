@@ -1,15 +1,23 @@
 spring:
   kafka:
-    bootstrap-servers: messenger:9092
+    bootstrap-servers: localhost:9092
     consumer:
-      group-id: "replies"
+      group-id: "replies-test"
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         "[spring.json.value.default.type]": com.example.domain.CalculatorRequest
         "[spring.json.trusted.packages]": com.example.domain.CalculatorRequest
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-  application:
-    name: calculator-service
+
+project:
+  kafka:
+    topic: "calculator-requests-test"
+    replyTopic: "calculator-replies-test"
+    requestTimeout: 5
+
 calculator:
   defaultPrecision: 10
+
+
+

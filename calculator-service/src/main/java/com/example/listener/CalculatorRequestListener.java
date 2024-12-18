@@ -1,5 +1,6 @@
 package com.example.listener;
 
+import com.example.configs.KafkaListenerConfigProps;
 import com.example.domain.CalculatorRequest;
 import com.example.exceptions.OperationDoesNotExistException;
 import com.example.service.impl.CalculatorService;
@@ -17,16 +18,18 @@ import java.util.Map;
 
 @Component
 public class CalculatorRequestListener {
-
-    private final CalculatorService calculatorService;
     private static Logger logger = LogManager.getLogger(CalculatorRequestListener.class);
+    private final CalculatorService calculatorService;
+    private final KafkaListenerConfigProps kafkaListenerConfigProps;
 
-    public CalculatorRequestListener(CalculatorService calculatorService) {
+
+    public CalculatorRequestListener(CalculatorService calculatorService, KafkaListenerConfigProps kafkaListenerConfigProps) {
 
         this.calculatorService = calculatorService;
+        this.kafkaListenerConfigProps = kafkaListenerConfigProps;
     }
 
-    @KafkaListener(id = "calculator", topics = "calculator.requests")
+    @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
     @SendTo
     public CalculatorRequest listens(CalculatorRequest request, @Headers Map<String, Object> headers) throws OperationDoesNotExistException, ArithmeticException {
         String id = headers.get("Request.id").toString();

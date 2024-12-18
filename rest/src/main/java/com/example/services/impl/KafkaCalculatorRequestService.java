@@ -1,5 +1,6 @@
 package com.example.services.impl;
 
+import com.example.config.KafkaConfigProps;
 import com.example.domain.CalculatorRequest;
 import com.example.interceptors.LoggingInterceptor;
 import com.example.services.CalculatorRequestReplyService;
@@ -22,24 +23,28 @@ import java.util.concurrent.ExecutionException;
 public class KafkaCalculatorRequestService implements CalculatorRequestReplyService {
 
     private static Logger logger = LogManager.getLogger(KafkaCalculatorRequestService.class);
+
     private final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate;
+    private final KafkaConfigProps kafkaConfigProps;
 
     public KafkaCalculatorRequestService(
-            final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate) {
+            final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate, KafkaConfigProps kafkaConfigProps) {
 
         this.replyingKafkaTemplate = replyingKafkaTemplate;
+        this.kafkaConfigProps = kafkaConfigProps;
     }
 
     @Override
     public CalculatorRequest calculatorRequestReply(final CalculatorRequest calculatorRequest ) throws InterruptedException, ExecutionException {
 
         //Create producer record
-        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>("calculator.requests", calculatorRequest);
+        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>(kafkaConfigProps.getTopic(), calculatorRequest);
+
         //Propagate the MDC
         record.headers().add("Request.id", MDC.get("Request.id").getBytes(StandardCharsets.UTF_8));
 
         //Send the request
-        RequestReplyFuture<String, CalculatorRequest, CalculatorRequest> replyFuture = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(10));
+        RequestReplyFuture<String, CalculatorRequest, CalculatorRequest> replyFuture = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(kafkaConfigProps.getRequestTimeout()));
 
         //Get sent Producer Record for Logging
         SendResult<String, CalculatorRequest> sendResult = replyFuture.getSendFuture().get();

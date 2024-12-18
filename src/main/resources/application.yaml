@@ -16,5 +16,7 @@ project:
   kafka:
     topic: "calculator.requests"
     replyTopic: "calculator.replies"
+    requestTimeout: 5
+
 calculator:
   defaultPrecision: 10

@@ -1,4 +1,5 @@
-package com.example.config;
+package com.example.configs;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +14,6 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class KafkaConfigProps {
-
+public class KafkaListenerConfigProps {
     private String topic;
-    private String replyTopic;
-    private int requestTimeout;
-
 }
