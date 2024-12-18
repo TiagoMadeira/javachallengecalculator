@@ -1,6 +1,6 @@
 package com.example.handlers;
 
-import com.example.domain.CalculatorRequest;
+import com.example.CalculatorMessage;
 import com.example.services.CalculatorRequestReplyService;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ public class RequestReplyServiceHandler {
     public RequestReplyServiceHandler(CalculatorRequestReplyService calculatorRequestService) {
         this.calculatorRequestService = calculatorRequestService;
     }
-    public  ResponseEntity<Object> handleRequest(CalculatorRequest request) {
+    public  ResponseEntity<Object> handleRequest(CalculatorMessage request) {
         try {
-            CalculatorRequest result = calculatorRequestService.calculatorRequestReply(request);
+            CalculatorMessage result = calculatorRequestService.calculatorRequestReply(request);
             return getSuccessfulEntity(result.getResult());
 
         } catch (ExecutionException e) {

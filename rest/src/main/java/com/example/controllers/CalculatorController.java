@@ -1,19 +1,16 @@
 package com.example.controllers;
 
-import com.example.RestApplication;
-import com.example.domain.CalculatorRequest;
+import com.example.CalculatorMessage;
 import com.example.handlers.RequestReplyServiceHandler;
 import com.example.services.CalculatorRequestReplyService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
-import java.util.Map;
+
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -32,9 +29,9 @@ public class CalculatorController {
             @RequestParam BigDecimal y,
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"sum",precision);
+        CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"sum",precision);
 
-        return requestReplyServiceHandler.handleRequest(calculatorRequest);
+        return requestReplyServiceHandler.handleRequest(calculatorMessage);
     }
 
     @GetMapping("subtraction")
@@ -43,9 +40,9 @@ public class CalculatorController {
             @RequestParam BigDecimal y,
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"subtraction", precision);
+        CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"subtraction", precision);
 
-        return requestReplyServiceHandler.handleRequest(calculatorRequest);
+        return requestReplyServiceHandler.handleRequest(calculatorMessage);
     }
 
     @GetMapping("multiplication")
@@ -54,9 +51,9 @@ public class CalculatorController {
             @RequestParam BigDecimal y,
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"multiplication",precision);
+        CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"multiplication",precision);
 
-        return requestReplyServiceHandler.handleRequest(calculatorRequest);
+        return requestReplyServiceHandler.handleRequest(calculatorMessage);
     }
 
     @GetMapping("division")
@@ -65,9 +62,9 @@ public class CalculatorController {
             @RequestParam BigDecimal y,
             @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
-        CalculatorRequest calculatorRequest = new CalculatorRequest(x,y,"division",precision);
+        CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"division",precision);
 
-        return requestReplyServiceHandler.handleRequest(calculatorRequest);
+        return requestReplyServiceHandler.handleRequest(calculatorMessage);
     }
 
 }

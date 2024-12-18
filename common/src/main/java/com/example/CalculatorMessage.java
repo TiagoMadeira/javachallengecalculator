@@ -1,8 +1,9 @@
-package com.example.domain;
+package com.example;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 
 
 @Getter
-public class CalculatorRequest {
+public class CalculatorMessage {
 
     private final BigDecimal x;
     private final BigDecimal y;
@@ -21,7 +22,7 @@ public class CalculatorRequest {
     private String result;
 
     @JsonCreator
-    public CalculatorRequest(@JsonProperty("x")BigDecimal x,
+    public CalculatorMessage(@JsonProperty("x")BigDecimal x,
                              @JsonProperty("y")BigDecimal y,
                              @JsonProperty("operation")String operation,
                              @JsonProperty("precision")int precision

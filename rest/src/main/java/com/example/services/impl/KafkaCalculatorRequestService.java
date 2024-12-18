@@ -1,8 +1,7 @@
 package com.example.services.impl;
 
+import com.example.CalculatorMessage;
 import com.example.config.KafkaConfigProps;
-import com.example.domain.CalculatorRequest;
-import com.example.interceptors.LoggingInterceptor;
 import com.example.services.CalculatorRequestReplyService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -24,42 +23,42 @@ public class KafkaCalculatorRequestService implements CalculatorRequestReplyServ
 
     private static Logger logger = LogManager.getLogger(KafkaCalculatorRequestService.class);
 
-    private final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate;
+    private final ReplyingKafkaTemplate<String, CalculatorMessage, CalculatorMessage> replyingKafkaTemplate;
     private final KafkaConfigProps kafkaConfigProps;
 
     public KafkaCalculatorRequestService(
-            final ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate, KafkaConfigProps kafkaConfigProps) {
+            final ReplyingKafkaTemplate<String, CalculatorMessage, CalculatorMessage> replyingKafkaTemplate, KafkaConfigProps kafkaConfigProps) {
 
         this.replyingKafkaTemplate = replyingKafkaTemplate;
         this.kafkaConfigProps = kafkaConfigProps;
     }
 
     @Override
-    public CalculatorRequest calculatorRequestReply(final CalculatorRequest calculatorRequest ) throws InterruptedException, ExecutionException {
+    public CalculatorMessage calculatorRequestReply(final CalculatorMessage calculatorMessage ) throws InterruptedException, ExecutionException {
 
         //Create producer record
-        ProducerRecord<String, CalculatorRequest> record = new ProducerRecord<>(kafkaConfigProps.getTopic(), calculatorRequest);
+        ProducerRecord<String, CalculatorMessage> record = new ProducerRecord<>(kafkaConfigProps.getTopic(), calculatorMessage);
 
         //Propagate the MDC
         record.headers().add("Request.id", MDC.get("Request.id").getBytes(StandardCharsets.UTF_8));
 
         //Send the request
-        RequestReplyFuture<String, CalculatorRequest, CalculatorRequest> replyFuture = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(kafkaConfigProps.getRequestTimeout()));
+        RequestReplyFuture<String, CalculatorMessage, CalculatorMessage> replyFuture = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(kafkaConfigProps.getRequestTimeout()));
 
         //Get sent Producer Record for Logging
-        SendResult<String, CalculatorRequest> sendResult = replyFuture.getSendFuture().get();
+        SendResult<String, CalculatorMessage> sendResult = replyFuture.getSendFuture().get();
         logKafkaRequest(sendResult.getProducerRecord().value());
 
         //Get consumer record listener record
 
-        ConsumerRecord<String, CalculatorRequest> consumerRecord = replyFuture.get();
+        ConsumerRecord<String, CalculatorMessage> consumerRecord = replyFuture.get();
 
         return consumerRecord.value();
     }
 
 
 
-    private void logKafkaRequest(CalculatorRequest request){
+    private void logKafkaRequest(CalculatorMessage request){
 
         MDC.put("Kafka.Request.Operation",request.getOperation());
         MDC.put("Kafka.Request.xOperand", request.getX().toString());
@@ -68,7 +67,7 @@ public class KafkaCalculatorRequestService implements CalculatorRequestReplyServ
         logger.info("[Rest][Kafka][Output] Kafka request sent!");
     }
 
-    private void logKafkaReply(CalculatorRequest reply){
+    private void logKafkaReply(CalculatorMessage reply){
         // Just logging the result to avoid clutter
         MDC.put("Kafka.Reply.Result", String.valueOf(reply.getResult()));
         logger.info("[Rest][Kafka][Input] Kafka reply received!");

@@ -1,7 +1,6 @@
 package com.example.listener;
 
-import com.example.configs.KafkaListenerConfigProps;
-import com.example.domain.CalculatorRequest;
+import com.example.CalculatorMessage;
 import com.example.exceptions.OperationDoesNotExistException;
 import com.example.service.impl.CalculatorService;
 import org.apache.logging.log4j.LogManager;
@@ -20,18 +19,17 @@ import java.util.Map;
 public class CalculatorRequestListener {
     private static Logger logger = LogManager.getLogger(CalculatorRequestListener.class);
     private final CalculatorService calculatorService;
-    private final KafkaListenerConfigProps kafkaListenerConfigProps;
 
 
-    public CalculatorRequestListener(CalculatorService calculatorService, KafkaListenerConfigProps kafkaListenerConfigProps) {
+    public CalculatorRequestListener(CalculatorService calculatorService) {
 
         this.calculatorService = calculatorService;
-        this.kafkaListenerConfigProps = kafkaListenerConfigProps;
     }
 
     @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
     @SendTo
-    public CalculatorRequest listens(CalculatorRequest request, @Headers Map<String, Object> headers) throws OperationDoesNotExistException, ArithmeticException {
+    public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, Object> headers) throws OperationDoesNotExistException, ArithmeticException {
+
         String id = headers.get("Request.id").toString();
         //Log Request
         logRequest(request, id);
@@ -59,7 +57,7 @@ public class CalculatorRequestListener {
         };
     }
 
-    private void logRequest(CalculatorRequest request, String id) {
+    private void logRequest(CalculatorMessage request, String id) {
         MDC.put("Request.id", id);
         MDC.put("Kafka.Request.Operation", request.getOperation());
         MDC.put("Kafka.Request.xOperand", request.getX().toString());
@@ -68,7 +66,7 @@ public class CalculatorRequestListener {
         logger.info("[calculator-service][Kafka][Input] Kafka request receive!");
     }
 
-    private void logReply(CalculatorRequest request) {
+    private void logReply(CalculatorMessage request) {
         MDC.put("Kafka.reply.result", request.getOperation());
         logger.info("[calculator-service][Kafka][Output] Kafka reply sent!");
     }

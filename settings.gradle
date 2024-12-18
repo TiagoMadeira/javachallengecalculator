@@ -1,4 +1,5 @@
 rootProject.name = 'calculator'
 include 'rest'
 include 'calculator-service'
+include 'common'
 

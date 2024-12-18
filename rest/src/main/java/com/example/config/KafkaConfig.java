@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.CalculatorMessage;
 import com.example.domain.CalculatorRequest;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -41,27 +42,27 @@ public class KafkaConfig {
 
 
     @Bean
-    public ReplyingKafkaTemplate<String, CalculatorRequest, CalculatorRequest> replyingKafkaTemplate(
-            ProducerFactory<String,CalculatorRequest> pf,
-            ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer) {
+    public ReplyingKafkaTemplate<String, CalculatorMessage, CalculatorMessage> replyingKafkaTemplate(
+            ProducerFactory<String,CalculatorMessage> pf,
+            ConcurrentMessageListenerContainer<String, CalculatorMessage> repliesContainer) {
         return new ReplyingKafkaTemplate<>(pf,repliesContainer);
     }
 
 
     @Bean
-    KafkaTemplate<String, CalculatorRequest> template(ProducerFactory<String, CalculatorRequest> pf) {
+    KafkaTemplate<String, CalculatorMessage> template(ProducerFactory<String, CalculatorMessage> pf) {
         return new KafkaTemplate<>(pf);
     }
 
 
 
     @Bean
-    public ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer(
+    public ConcurrentMessageListenerContainer<String, CalculatorMessage> repliesContainer(
             final KafkaConfigProps kafkaConfigProps,
-            ConcurrentKafkaListenerContainerFactory<String, CalculatorRequest> containerFactory,
-            KafkaTemplate<String, CalculatorRequest> template) {
+            ConcurrentKafkaListenerContainerFactory<String, CalculatorMessage> containerFactory,
+            KafkaTemplate<String, CalculatorMessage> template) {
         containerFactory.setReplyTemplate(template);
-        ConcurrentMessageListenerContainer<String, CalculatorRequest> repliesContainer = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
+        ConcurrentMessageListenerContainer<String, CalculatorMessage> repliesContainer = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
         repliesContainer.getContainerProperties().setGroupId("replies");
         return repliesContainer;
     }
