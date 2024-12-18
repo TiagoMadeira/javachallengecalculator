@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 
@@ -28,9 +29,9 @@ public class CalculatorRequestListener {
 
     @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
     @SendTo
-    public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, Object> headers) throws OperationDoesNotExistException, ArithmeticException {
+    public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, byte[]> headers) throws OperationDoesNotExistException, ArithmeticException {
 
-        String id = headers.get("Request.id").toString();
+        String id = new String(headers.get("Request.id"), StandardCharsets.UTF_8);
         //Log Request
         logRequest(request, id);
 

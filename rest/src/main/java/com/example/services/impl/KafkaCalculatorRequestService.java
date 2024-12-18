@@ -40,7 +40,8 @@ public class KafkaCalculatorRequestService implements CalculatorRequestReplyServ
         ProducerRecord<String, CalculatorMessage> record = new ProducerRecord<>(kafkaConfigProps.getTopic(), calculatorMessage);
 
         //Propagate the MDC
-        record.headers().add("Request.id", MDC.get("Request.id").getBytes(StandardCharsets.UTF_8));
+        record.headers().add("Request.id", MDC.get("Request.id").getBytes());
+
 
         //Send the request
         RequestReplyFuture<String, CalculatorMessage, CalculatorMessage> replyFuture = replyingKafkaTemplate.sendAndReceive(record, Duration.ofSeconds(kafkaConfigProps.getRequestTimeout()));
@@ -52,7 +53,7 @@ public class KafkaCalculatorRequestService implements CalculatorRequestReplyServ
         //Get consumer record listener record
 
         ConsumerRecord<String, CalculatorMessage> consumerRecord = replyFuture.get();
-
+        logKafkaReply(consumerRecord.value());
         return consumerRecord.value();
     }
 

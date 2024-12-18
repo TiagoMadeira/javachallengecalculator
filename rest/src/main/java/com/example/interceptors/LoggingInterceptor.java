@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class LoggingInterceptor implements HandlerInterceptor{
 
-    private static Logger logger = LogManager.getLogger(LoggingInterceptor.class);
+    private static Logger logger = LogManager.getLogger("lognow");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

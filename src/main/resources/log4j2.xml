@@ -4,7 +4,7 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} Response.status=%X{Response.status}%n%n"/>
         </Console>
-        <File name="LogFile" filename="rest/logs/rest.log">
+        <File name="logfile" filename="calculator.log">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} %n%n</Pattern>
             </PatternLayout>
@@ -13,11 +13,11 @@
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console"/>
-            <AppenderRef ref="LogFile"/>
+            <AppenderRef ref="logfile"/>
         </Root>
-        <Logger name="lognow" level="info" activity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="LogFile"/>
+        <Logger name="lognow" level="info" >
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="logfile"/>
         </Logger>
     </Loggers>
 </Configuration>
