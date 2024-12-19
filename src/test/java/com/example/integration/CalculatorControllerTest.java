@@ -52,7 +52,7 @@ public class CalculatorControllerTest {
                 .perform(MockMvcRequestBuilders.get("/sum?x=" + bigTwo + "&y=" + bigTwo))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{result:\"10\"}"));
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
     }
     @Test
     public void subtractionEndpointTest() throws Exception {
