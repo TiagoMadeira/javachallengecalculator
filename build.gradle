@@ -26,6 +26,10 @@ configurations {
 	}
 }
 
+configurations.implementation {
+	exclude group : "ch.qos.logback"
+}
+
 dependencies {
 	implementation project('rest')
 	implementation project('calculator-service')
@@ -35,10 +39,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation "org.springframework.boot:spring-boot-starter-log4j2"
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation "org.springframework.kafka:spring-kafka-test"
 }
 
@@ -75,6 +79,11 @@ subprojects {
 			extendsFrom annotationProcessor
 		}
 	}
+
+	configurations.implementation {
+		exclude group : "ch.qos.logback"
+	}
+
 
 	dependencies{
 		compileOnly 'org.projectlombok:lombok'
