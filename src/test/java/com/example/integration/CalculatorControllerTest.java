@@ -32,24 +32,17 @@ public class CalculatorControllerTest {
     EmbeddedKafkaBroker embeddedKafkaBroker;
 
     private final MockMvc mockMvc;
-    private BigDecimal bigTwo;
 
     @Autowired
     public CalculatorControllerTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
-
-    @BeforeEach
-    void init(){
-        bigTwo = BigDecimal.TWO;
-    }
-
     @Test
     public void sumEndpointTest() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/sum?x=" + bigTwo + "&y=" + bigTwo))
+                .perform(MockMvcRequestBuilders.get("/sum?x=" + BigDecimal.TWO + "&y=" + BigDecimal.TWO))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
@@ -58,7 +51,7 @@ public class CalculatorControllerTest {
     public void subtractionEndpointTest() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/subtraction?x=" + bigTwo + "&y=" + bigTwo))
+                .perform(MockMvcRequestBuilders.get("/subtraction?x=" + BigDecimal.TWO + "&y=" + BigDecimal.TWO))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"0\"}"));
@@ -68,7 +61,7 @@ public class CalculatorControllerTest {
     public void multiplicationEndpointTest() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/multiplication?x=" + bigTwo + "&y=" + bigTwo))
+                .perform(MockMvcRequestBuilders.get("/multiplication?x=" + BigDecimal.TWO + "&y=" + BigDecimal.TWO))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
@@ -78,7 +71,7 @@ public class CalculatorControllerTest {
     public void divisionEndpointTest() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/division?x=" + bigTwo + "&y=" + bigTwo))
+                .perform(MockMvcRequestBuilders.get("/division?x=" + BigDecimal.TWO + "&y=" + BigDecimal.TWO))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"1\"}"));
@@ -88,7 +81,7 @@ public class CalculatorControllerTest {
     public void divisionByZeroTest() throws Exception {
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/division?x=" + bigTwo + "&y=" + bigTwo))
+                .perform(MockMvcRequestBuilders.get("/division?x=" + BigDecimal.TWO + "&y=" + BigDecimal.ZERO))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 

@@ -29,7 +29,7 @@ public class CalculatorRequestListener {
         this.calculatorService = calculatorService;
     }
 
-    @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
+    @KafkaListener(id = "calculator", topics = "${project.kafka.topic}",errorHandler = "calculatorMessageErrorHandler")
     @SendTo
     public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, byte[]> headers) throws OperationDoesNotExistException, ArithmeticException {
 
@@ -55,14 +55,6 @@ public class CalculatorRequestListener {
             return request;
     }
 
-    @Bean
-    public KafkaListenerErrorHandler calculatorMessageErrorHandler() {
-        return (m, e) -> {
-            CalculatorMessage request = (CalculatorMessage) m.getPayload();
-            request.setResult(e.getCause().getMessage());
-            return request;
-        };
-    }
 
     private BigDecimal resolveOperation(String operation, BigDecimal x, BigDecimal y, int precision) throws OperationDoesNotExistException, ArithmeticException {
 
