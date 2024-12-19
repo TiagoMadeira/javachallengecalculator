@@ -1,6 +1,7 @@
-package integration;
+package com.example.integration;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,20 +32,56 @@ public class CalculatorControllerTest {
     EmbeddedKafkaBroker embeddedKafkaBroker;
 
     private final MockMvc mockMvc;
+    private BigDecimal bigTwo;
 
     @Autowired
     public CalculatorControllerTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
+
+    @BeforeEach
+    void init(){
+        bigTwo = BigDecimal.TWO;
+    }
+
     @Test
     public void sumEndpointTest() throws Exception {
-        BigDecimal two = new BigDecimal(2);
 
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/sum?x=" + two + "&y=" + two))
+                .perform(MockMvcRequestBuilders.get("/sum?x=" + bigTwo + "&y=" + bigTwo))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"10\"}"));
+    }
+    @Test
+    public void subtractionEndpointTest() throws Exception {
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/subtraction?x=" + bigTwo + "&y=" + bigTwo))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"0\"}"));
+
+    }
+    @Test
+    public void multiplicationEndpointTest() throws Exception {
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/multiplication?x=" + bigTwo + "&y=" + bigTwo))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"4\"}"));
+
+    }
+    @Test
+    public void divisionEndpointTest() throws Exception {
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/division?x=" + bigTwo + "&y=" + bigTwo))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("{result:\"1\"}"));
+
     }
 }
