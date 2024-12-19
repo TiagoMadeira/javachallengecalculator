@@ -3,8 +3,7 @@ package com.example.listener;
 import com.example.CalculatorMessage;
 import com.example.exceptions.OperationDoesNotExistException;
 import com.example.service.impl.CalculatorService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.example.utils.logUtils.LogHelper;
 import org.slf4j.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -18,7 +17,8 @@ import java.util.Map;
 
 @Component
 public class CalculatorRequestListener {
-    private static Logger logger = LogManager.getLogger(CalculatorRequestListener.class);
+
+    private static final LogHelper loggerHelper = new LogHelper();
     private final CalculatorService calculatorService;
 
 
@@ -30,10 +30,12 @@ public class CalculatorRequestListener {
     @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
     @SendTo
     public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, byte[]> headers) throws OperationDoesNotExistException, ArithmeticException {
-
+        //Propagate Request id
         String id = new String(headers.get("Request.id"), StandardCharsets.UTF_8);
+        MDC.put("Request.id", id);
         //Log Request
-        logRequest(request, id);
+        loggerHelper.loadAndLogCalculatorMessageToMDC(request,
+                "[calculator-service][Kafka][Input] Kafka request receive!");
 
         BigDecimal x = request.getX();
         BigDecimal y = request.getY();
@@ -43,7 +45,8 @@ public class CalculatorRequestListener {
         request.setResult(String.valueOf(resolveOperation(operation, x, y, precision)));
 
         //Log reply
-        logReply(request);
+        loggerHelper.loadAndLogCalculatorMessageToMDC(request,
+                "[calculator-service][Kafka][Output] Kafka reply sent!");
         return request;
     }
 
@@ -58,19 +61,6 @@ public class CalculatorRequestListener {
         };
     }
 
-    private void logRequest(CalculatorMessage request, String id) {
-        MDC.put("Request.id", id);
-        MDC.put("Kafka.Request.Operation", request.getOperation());
-        MDC.put("Kafka.Request.xOperand", request.getX().toString());
-        MDC.put("Kafka.Request.yOperand", request.getY().toString());
-        MDC.put("Kafka.Request.Precision", String.valueOf(request.getPrecision()));
-        logger.info("[calculator-service][Kafka][Input] Kafka request receive!");
-    }
-
-    private void logReply(CalculatorMessage request) {
-        MDC.put("Kafka.reply.result", request.getOperation());
-        logger.info("[calculator-service][Kafka][Output] Kafka reply sent!");
-    }
 }
 
 

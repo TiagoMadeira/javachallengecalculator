@@ -1,42 +1,20 @@
 package com.example.utils.logUtils;
 
 import com.example.CalculatorMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.slf4j.MDC;
 
-public class LogCalculatorMessage {
+public class LogHelper {
 
+    private static Logger logger = LogManager.getLogger("lognow");
 
-    public void logToMDC(CalculatorMessage alculatorMessage){
-
-
+    public void loadAndLogCalculatorMessageToMDC(CalculatorMessage calculatorMessage, String Message){
+        MDC.put("Kafka.CMessage.Operation",calculatorMessage.getOperation());
+        MDC.put("Kafka.CMessage.xOperand", calculatorMessage.getX().toString());
+        MDC.put("Kafka.CMessage.yOperand",calculatorMessage.getY().toString());
+        MDC.put("Kafka.CMessage.Precision", String.valueOf(calculatorMessage.getPrecision()));
+        MDC.put("Kafka.CMessage.Result", String.valueOf(calculatorMessage.getResult()));
+        logger.info(Message);
     }
-
-    private void logKafkaRequest(CalculatorMessage request){
-
-        MDC.put("Kafka.Request.Operation",request.getOperation());
-        MDC.put("Kafka.Request.xOperand", request.getX().toString());
-        MDC.put("Kafka.Request.yOperand",request.getY().toString());
-        MDC.put("Kafka.Request.Precision", String.valueOf(request.getPrecision()));
-        logger.info("[Rest][Kafka][Output] Kafka request sent!");
-    }
-
-    private void logKafkaReply(CalculatorMessage reply){
-        // Just logging the result to avoid clutter
-        MDC.put("Kafka.Reply.Result", String.valueOf(reply.getResult()));
-        logger.info("[Rest][Kafka][Input] Kafka reply received!");
-    }
-
-    private void logRequest(CalculatorMessage request, String id) {
-        MDC.put("Request.id", id);
-        MDC.put("Kafka.Request.Operation", request.getOperation());
-        MDC.put("Kafka.Request.xOperand", request.getX().toString());
-        MDC.put("Kafka.Request.yOperand", request.getY().toString());
-        MDC.put("Kafka.Request.Precision", String.valueOf(request.getPrecision()));
-        logger.info("[calculator-service][Kafka][Input] Kafka request receive!");
-    }
-
-    private void logReply(CalculatorMessage request) {
-        MDC.put("Kafka.reply.result", request.getOperation());
-        logger.info("[calculator-service][Kafka][Output] Kafka reply sent!");
-    } 
 }

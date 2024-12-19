@@ -2,21 +2,31 @@
 <Configuration status="INFO">
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} Response.status=%X{Response.status}%n%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg %n%n"/>
+        </Console>
+        <Console name="consolelog" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg %n
+                    - HTTPrequest - Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} Response.status=%X{Response.status}%n
+                    - CalculatorMessage - Operation=%X{Kafka.CMessage.Operation} xOperand=%X{Kafka.CMessage.xOperand} yOperand=%X{Kafka.CMessage.yOperand} Precision=%X{Kafka.CMessage.Precision} Result=%X{Kafka.CMessage.Result} %n%n
+                </Pattern>
+            </PatternLayout>
         </Console>
         <File name="logfile" filename="calculator.log">
             <PatternLayout>
-                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} %n%n</Pattern>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - Message:  %msg %n
+                    - HTTPrequest - Request.id=%X{Request.id} Request.URI=%X{Request.URI} Request.QueryParams=%X{Request.QueryParams} Response.status=%X{Response.status}%n
+                    - CalculatorMessage - Operation=%X{Kafka.CMessage.Operation} xOperand=%X{Kafka.CMessage.xOperand} yOperand=%X{Kafka.CMessage.yOperand} Precision=%X{Kafka.CMessage.Precision} Result=%X{Kafka.CMessage.Result} %n%n
+                </Pattern>
             </PatternLayout>
         </File>
     </Appenders>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console"/>
-            <AppenderRef ref="logfile"/>
         </Root>
         <Logger name="lognow" level="info" >
-            <AppenderRef ref="console"/>
+            <AppenderRef ref="consolelog"/>
             <AppenderRef ref="logfile"/>
         </Logger>
     </Loggers>
