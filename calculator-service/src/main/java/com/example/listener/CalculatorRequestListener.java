@@ -5,7 +5,11 @@ import com.example.exceptions.OperationDoesNotExistException;
 import com.example.service.impl.CalculatorService;
 import com.example.utils.logUtils.LogHelper;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.listener.KafkaListenerErrorHandler;
+import org.springframework.kafka.listener.ListenerExecutionFailedException;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
@@ -21,33 +25,43 @@ public class CalculatorRequestListener {
     private static final LogHelper loggerHelper = new LogHelper();
     private final CalculatorService calculatorService;
 
-
     public CalculatorRequestListener(CalculatorService calculatorService) {
-
         this.calculatorService = calculatorService;
     }
 
     @KafkaListener(id = "calculator", topics = "${project.kafka.topic}")
     @SendTo
     public CalculatorMessage listens(CalculatorMessage request, @Headers Map<String, byte[]> headers) throws OperationDoesNotExistException, ArithmeticException {
-        //Propagate Request id
-        String id = new String(headers.get("Request.id"), StandardCharsets.UTF_8);
-        MDC.put("Request.id", id);
-        //Log Request
-        loggerHelper.loadAndLogCalculatorMessageToMDC(request,
-                "[calculator-service][Kafka][Input] Kafka request receive!");
 
-        BigDecimal x = request.getX();
-        BigDecimal y = request.getY();
-        String operation = request.getOperation();
-        int precision = request.getPrecision();
+            //Propagate Request id
+            String id = new String(headers.get("Request.id"), StandardCharsets.UTF_8);
+            MDC.put("Request.id", id);
+            //Log Request
+            loggerHelper.loadAndLogCalculatorMessageToMDC(request,
+                    "[calculator-service][Kafka][Input] Kafka request receive!");
 
-        request.setResult(String.valueOf(resolveOperation(operation, x, y, precision)));
+            BigDecimal x = request.getX();
+            BigDecimal y = request.getY();
+            String operation = request.getOperation();
+            int precision = request.getPrecision();
 
-        //Log reply
-        loggerHelper.loadAndLogCalculatorMessageToMDC(request,
-                "[calculator-service][Kafka][Output] Kafka reply sent!");
-        return request;
+            //Process Request
+            request.setResult(String.valueOf(resolveOperation(operation, x, y, precision)));
+
+            //Log reply
+            loggerHelper.loadAndLogCalculatorMessageToMDC(request,
+                    "[calculator-service][Kafka][Output] Kafka reply sent!");
+
+            return request;
+    }
+
+    @Bean
+    public KafkaListenerErrorHandler calculatorMessageErrorHandler() {
+        return (m, e) -> {
+            CalculatorMessage request = (CalculatorMessage) m.getPayload();
+            request.setResult(e.getCause().getMessage());
+            return request;
+        };
     }
 
     private BigDecimal resolveOperation(String operation, BigDecimal x, BigDecimal y, int precision) throws OperationDoesNotExistException, ArithmeticException {

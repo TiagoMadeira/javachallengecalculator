@@ -84,4 +84,13 @@ public class CalculatorControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json("{result:\"1\"}"));
 
     }
+    @Test
+    public void divisionByZeroTest() throws Exception {
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/division?x=" + bigTwo + "&y=" + bigTwo))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
 }
