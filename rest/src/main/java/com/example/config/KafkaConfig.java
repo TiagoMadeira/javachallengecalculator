@@ -36,21 +36,21 @@ public class KafkaConfig {
     @Bean
     public ReplyingKafkaTemplate<String, CalculatorMessage, CalculatorMessage> replyingKafkaTemplate(
             ProducerFactory<String,CalculatorMessage> pf,
-            ConcurrentMessageListenerContainer<String, CalculatorMessage> repliesContainer) {
-        return new ReplyingKafkaTemplate<>(pf,repliesContainer);
+            ConcurrentKafkaListenerContainerFactory<String, CalculatorMessage> containerFactory,
+            KafkaTemplate<String, CalculatorMessage> template,
+            final KafkaConfigProps kafkaConfigProps
+    ) {
+
+        containerFactory.setReplyTemplate(template);
+        ConcurrentMessageListenerContainer<String, CalculatorMessage> container = containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
+        ReplyingKafkaTemplate<String, CalculatorMessage, CalculatorMessage> replier = new ReplyingKafkaTemplate<>(pf, container);
+        replier.setDefaultTopic(kafkaConfigProps.getTopic());
+
+        return replier;
     }
 
     @Bean
     KafkaTemplate<String, CalculatorMessage> template(ProducerFactory<String, CalculatorMessage> pf) {
         return new KafkaTemplate<>(pf);
-    }
-
-    @Bean
-    public ConcurrentMessageListenerContainer<String, CalculatorMessage> repliesContainer(
-            final KafkaConfigProps kafkaConfigProps,
-            ConcurrentKafkaListenerContainerFactory<String, CalculatorMessage> containerFactory,
-            KafkaTemplate<String, CalculatorMessage> template) {
-        containerFactory.setReplyTemplate(template);
-        return containerFactory.createContainer(kafkaConfigProps.getReplyTopic());
     }
 }
