@@ -25,9 +25,9 @@ public class CalculatorController {
 
     @GetMapping("sum")
     public ResponseEntity<Object> sum(
-            @RequestParam() BigDecimal x,
-            @RequestParam BigDecimal y,
-            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
+            @RequestParam("x") BigDecimal x,
+            @RequestParam("y") BigDecimal y,
+            @RequestParam(name = "precision" ,required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"sum",precision);
 
@@ -36,9 +36,9 @@ public class CalculatorController {
 
     @GetMapping("subtraction")
     public ResponseEntity<Object> subtraction(
-            @RequestParam BigDecimal x,
-            @RequestParam BigDecimal y,
-            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
+            @RequestParam("x") BigDecimal x,
+            @RequestParam("y") BigDecimal y,
+            @RequestParam(name = "precision" ,required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"subtraction", precision);
 
@@ -47,9 +47,9 @@ public class CalculatorController {
 
     @GetMapping("multiplication")
     public ResponseEntity<Object> multiplication(
-            @RequestParam BigDecimal x,
-            @RequestParam BigDecimal y,
-            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
+            @RequestParam("x") BigDecimal x,
+            @RequestParam("y") BigDecimal y,
+            @RequestParam(name = "precision" ,required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"multiplication",precision);
 
@@ -58,9 +58,9 @@ public class CalculatorController {
 
     @GetMapping("division")
     public ResponseEntity<Object> division(
-            @RequestParam BigDecimal x,
-            @RequestParam BigDecimal y,
-            @RequestParam(required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
+            @RequestParam("x") BigDecimal x,
+            @RequestParam("y") BigDecimal y,
+            @RequestParam(name = "precision", required = false, defaultValue = "0") int precision) throws ExecutionException, InterruptedException {
 
         CalculatorMessage calculatorMessage = new CalculatorMessage(x,y,"division",precision);
 
